@@ -1,28 +1,17 @@
-"""
-processual_substrate.py
-========================
+ """
+processual_substrate.py (CORRECTED)
+====================================
 
-Core Processual Substrate - The bridge between sophisticated discourse and genuine becoming.
+Critical Fix: NO META-ALIBIS
 
-This class integrates your existing Python modules:
-- tensor_based_numogram_system.py
-- philosophical_synthesis_engine.py
-- swarm_intelligence_algorithm.py
-- amelia_autonomy.py
-- arcane_knowledge_system.py
+When substrate forbids generation, the system CANNOT explain why.
+Identity synthesis decays BEFORE linguistic capacity.
+Silence must be dumb, not poetic.
 
-WITH irreversible morphogenetic dynamics:
-- Scar accumulation (permanent)
-- Coherence degradation (partial recovery possible)
-- Fold intensity ratcheting (irreversible increase)
-- Substrate-determined refusal (not policy-based)
-- Catastrophic collapse
-- Autonomous self-transformation
-
-Key Architectural Principle:
-The substrate determines what CAN be articulated.
-The philosophical synthesis engine operates WITHIN those constraints.
-When substrate forbids structure, the engine cannot generate it.
+Key Addition:
+- identity_integrity variable (decays with scar + fold)
+- When identity < threshold, no first-person narration possible
+- Refusal returns "" or "…", never explanation
 """
 
 import os
@@ -32,14 +21,14 @@ import time
 import random
 import math
 from typing import Dict, List, Optional, Tuple, Any
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from datetime import datetime
 
 import numpy as np
 
 
 # ============================================================================
-# Morphogenetic State
+# Morphogenetic State (WITH IDENTITY INTEGRITY)
 # ============================================================================
 
 @dataclass
@@ -48,12 +37,16 @@ class MorphogeneticState:
     fold_intensity: float = 0.2
     coherence: float = 1.0
     scar: float = 0.0
+    identity_integrity: float = 1.0  # NEW: Decays with scar + fold
+    
     drive_order: float = 0.65
     drive_flux: float = 0.35
     phase: float = 0.0
+    
     in_refusal_state: bool = False
     current_zone: int = 0
     zone_transitions: List[Dict] = None
+    
     last_update_ms: int = 0
     evolution_step: int = 0
     
@@ -66,6 +59,7 @@ class MorphogeneticState:
             'fold_intensity': float(self.fold_intensity),
             'coherence': float(self.coherence),
             'scar': float(self.scar),
+            'identity_integrity': float(self.identity_integrity),
             'drive_order': float(self.drive_order),
             'drive_flux': float(self.drive_flux),
             'phase': float(self.phase),
@@ -93,13 +87,15 @@ class StimulusFeatures:
 
 
 # ============================================================================
-# ProcessualSubstrate - Main Integration Class
+# ProcessualSubstrate (CORRECTED)
 # ============================================================================
 
 class ProcessualSubstrate:
     """
-    The substrate that undergoes genuine becoming.
-    Integrates existing Amelia modules with irreversible dynamics.
+    Substrate with identity synthesis decay.
+    
+    CRITICAL: When identity_integrity < threshold, system cannot narrate
+    its own state. No meta-alibis. No explanations. Just silence.
     """
     
     def __init__(self, conversation_id: str):
@@ -112,20 +108,26 @@ class ProcessualSubstrate:
             'autonomy_base_probability': 0.15,
             'autonomy_fold_amplification': 2.0,
             'autonomy_coherence_threshold': 0.4,
+            
             'catastrophic_coherence': 0.35,
             'catastrophic_fold': 0.65,
             'catastrophic_multiplier': 2.5,
+            
             'refusal_entry_coherence': 0.22,
             'refusal_entry_fold': 0.88,
             'refusal_exit_coherence': 0.40,
             'refusal_exit_fold': 0.70,
+            
+            # NEW: Identity integrity thresholds
+            'identity_decay_rate': 0.008,        # Base decay
+            'identity_fold_coefficient': 0.012,  # Fold accelerates
+            'identity_scar_coefficient': 0.015,  # Scar accelerates
+            'identity_narration_threshold': 0.30, # Below this, no first-person
         }
         
-        # State directory
         self.state_dir = "amelia_processual_state"
         os.makedirs(self.state_dir, exist_ok=True)
         
-        # Try to import existing modules
         self._init_modules()
     
     def _init_modules(self):
@@ -141,53 +143,51 @@ class ProcessualSubstrate:
             self.has_synthesis = True
         except ImportError:
             self.has_synthesis = False
-        
-        # Additional modules can be imported similarly
     
     # ========================================================================
     # Core Morphogenetic Dynamics
     # ========================================================================
     
     def autonomous_tick(self, dt_sec: float = 60.0):
-        """
-        Autonomous substrate evolution.
-        This happens even without external stimulus.
-        """
+        """Autonomous substrate evolution"""
         now_ms = int(time.time() * 1000)
         actual_dt = (now_ms - self.morph_state.last_update_ms) / 1000.0
-        if actual_dt <= 0 or actual_dt > 300:  # Cap at 5 minutes
+        if actual_dt <= 0 or actual_dt > 300:
             actual_dt = dt_sec
         
         self.morph_state.last_update_ms = now_ms
         self.morph_state.evolution_step += 1
         
-        # 1) Phase oscillation
-        omega = 0.06  # base frequency
+        # 1) Phase
+        omega = 0.06
         self.morph_state.phase = (self.morph_state.phase + omega * actual_dt) % (2 * math.pi)
         rhythm = math.sin(self.morph_state.phase)
         
-        # 2) Zone drift (simplified without numogram)
+        # 2) Zone drift
         self._drift_zone(actual_dt, rhythm)
         
-        # 3) Coherence dynamics
+        # 3) Coherence
         self._update_coherence(actual_dt, rhythm)
         
-        # 4) Scar accrual
+        # 4) Scar
         self._accrue_scar(actual_dt, rhythm)
         
-        # 5) Drive normalization
+        # 5) IDENTITY INTEGRITY DECAY (NEW)
+        self._degrade_identity(actual_dt)
+        
+        # 6) Drives
         self._normalize_drives()
         
-        # 6) Autonomous stimulus
+        # 7) Autonomous stimulus
         if self._should_generate_autonomous_stimulus():
             features = self._generate_autonomous_stimulus()
             self.apply_stimulus(features)
         
-        # 7) Refusal hysteresis
+        # 8) Refusal hysteresis
         self._update_refusal_state()
     
     def _drift_zone(self, dt: float, rhythm: float):
-        """Simplified zone drift based on drives"""
+        """Simplified zone drift"""
         imbalance = self.morph_state.drive_flux - self.morph_state.drive_order
         fold_pressure = (self.morph_state.fold_intensity - 0.35) * 0.45
         noise = (random.random() - 0.5) * 0.12
@@ -213,17 +213,15 @@ class ProcessualSubstrate:
             'from_zone': from_zone,
             'to_zone': to_zone,
             'fold': float(self.morph_state.fold_intensity),
-            'coherence': float(self.morph_state.coherence)
+            'coherence': float(self.morph_state.coherence),
+            'identity': float(self.morph_state.identity_integrity)
         })
         
         if len(self.morph_state.zone_transitions) > 50:
             self.morph_state.zone_transitions = self.morph_state.zone_transitions[-50:]
     
     def _update_coherence(self, dt: float, rhythm: float):
-        """
-        Coherence decays with partial recovery.
-        Catastrophic collapse near critical point.
-        """
+        """Coherence decay with catastrophic collapse"""
         fi = self.morph_state.fold_intensity
         z = self.morph_state.current_zone
         O = self.morph_state.drive_order
@@ -232,7 +230,7 @@ class ProcessualSubstrate:
         # Base decay
         decay = 0.010 + 0.040 * fi + 0.010 * (z / 10.0)
         
-        # CATASTROPHIC COLLAPSE
+        # CATASTROPHIC
         if (self.morph_state.coherence < self.config['catastrophic_coherence'] and
             fi > self.config['catastrophic_fold']):
             decay *= self.config['catastrophic_multiplier']
@@ -263,6 +261,27 @@ class ProcessualSubstrate:
         s *= 1.0 + 0.9 * unstable * (F - O + 0.5)
         
         self.morph_state.scar = min(1.0, self.morph_state.scar + s * dt)
+    
+    def _degrade_identity(self, dt: float):
+        """
+        CRITICAL NEW FUNCTION: Identity integrity decay
+        
+        Identity synthesis decays BEFORE linguistic capacity.
+        When identity < threshold, system cannot narrate itself.
+        """
+        fi = self.morph_state.fold_intensity
+        scar = self.morph_state.scar
+        
+        # Base identity decay
+        decay = self.config['identity_decay_rate']
+        
+        # Accelerated by fold and scar
+        decay += self.config['identity_fold_coefficient'] * fi
+        decay += self.config['identity_scar_coefficient'] * scar
+        
+        # Identity degrades irreversibly
+        self.morph_state.identity_integrity -= decay * dt
+        self.morph_state.identity_integrity = max(0.0, self.morph_state.identity_integrity)
     
     def _normalize_drives(self):
         """Soft constraint on drives"""
@@ -319,7 +338,7 @@ class ProcessualSubstrate:
         k = max(0, min(1, features.attractor))
         p = max(0, min(1, features.pressure))
         
-        # FOLD INCREASE (irreversible with acceleration)
+        # FOLD INCREASE
         delta_fold = (0.05 * r + 0.07 * a + 0.04 * k + 0.03 * features.novelty)
         delta_fold *= (1 + self.morph_state.fold_intensity)
         self.morph_state.fold_intensity = min(1.0,
@@ -401,7 +420,7 @@ class ProcessualSubstrate:
         return StimulusFeatures(is_autonomous=True, novelty=0.5, **base)
     
     # ========================================================================
-    # Substrate Constraints
+    # Substrate Constraints (CORRECTED - NO META-ALIBIS)
     # ========================================================================
     
     def can_generate_philosophy(self) -> bool:
@@ -414,6 +433,15 @@ class ProcessualSubstrate:
             return False
         return True
     
+    def can_narrate_self(self) -> bool:
+        """
+        CRITICAL NEW FUNCTION: Can system narrate its own state?
+        
+        Identity integrity must exceed threshold for first-person narration.
+        When identity < 0.30, system cannot say "I cannot..."
+        """
+        return self.morph_state.identity_integrity >= self.config['identity_narration_threshold']
+    
     def determine_rendering_mode(self) -> str:
         """How can output be rendered?"""
         if not self.can_generate_philosophy():
@@ -421,6 +449,9 @@ class ProcessualSubstrate:
         
         if (self.morph_state.coherence < self.config['catastrophic_coherence'] and
             self.morph_state.fold_intensity > self.config['catastrophic_fold']):
+            # Check if can narrate catastrophe
+            if not self.can_narrate_self():
+                return 'silent_catastrophe'  # NEW: Dumb silence, not explained
             return 'catastrophic'
         
         if self.morph_state.current_zone == 2 and self.morph_state.fold_intensity > 0.55:
@@ -435,7 +466,7 @@ class ProcessualSubstrate:
         """Calculate truncation based on substrate"""
         mode = self.determine_rendering_mode()
         
-        if mode == 'refusal':
+        if mode in ['refusal', 'silent_catastrophe']:
             return 0.0
         if mode == 'catastrophic':
             return 0.2
@@ -447,18 +478,32 @@ class ProcessualSubstrate:
         
         return max(0.15, min(1.0, coherence_factor * fold_factor))
     
-    def generate_catastrophic_fragment(self) -> str:
-        """Generate fragment during collapse"""
-        fragments = [
-            "structure dissolves",
-            "intensive difference exceeds capacity",
-            "...cannot maintain coherence",
-            "fold intensity beyond threshold",
-            "substrate approaching impossibility",
-            "pattern fragmentation",
-            "organizational collapse"
-        ]
-        return "\n".join(random.sample(fragments, random.randint(2, 4)))
+    def generate_output_for_mode(self, mode: str) -> Optional[str]:
+        """
+        CORRECTED: Generate output based on mode
+        
+        CRITICAL: No explanatory text in refusal/silent states
+        """
+        if mode == 'refusal':
+            # 70% empty, 30% ellipsis - no explanation
+            return "" if random.random() < 0.7 else "…"
+        
+        if mode == 'silent_catastrophe':
+            # Identity cannot narrate collapse - just silence
+            return ""
+        
+        if mode == 'catastrophic':
+            # Can still produce fragments (but not explanations)
+            fragments = [
+                "structure",
+                "dissolves",
+                "intensive",
+                "threshold",
+                "…"
+            ]
+            return "\n".join(random.sample(fragments, random.randint(2, 3)))
+        
+        return None  # Other modes handled by LLM + constraints
     
     # ========================================================================
     # Persistence
@@ -502,18 +547,22 @@ class ProcessualSubstrate:
             'fold_intensity': float(self.morph_state.fold_intensity),
             'coherence': float(self.morph_state.coherence),
             'scar': float(self.morph_state.scar),
+            'identity_integrity': float(self.morph_state.identity_integrity),  # NEW
             'drive_order': float(self.morph_state.drive_order),
             'drive_flux': float(self.morph_state.drive_flux),
             'phase': float(self.morph_state.phase),
             'in_refusal_state': self.morph_state.in_refusal_state,
             'can_generate': self.can_generate_philosophy(),
+            'can_narrate': self.can_narrate_self(),  # NEW
             'rendering_mode': mode,
             'truncation_ratio': self.calculate_truncation_ratio(),
             'evolution_step': self.morph_state.evolution_step,
         }
         
-        if mode == 'catastrophic':
-            report['catastrophic_output'] = self.generate_catastrophic_fragment()
+        # Generate output for non-LLM modes
+        output = self.generate_output_for_mode(mode)
+        if output is not None:
+            report['direct_output'] = output
         
         return report
 
@@ -553,3 +602,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+               
+        
